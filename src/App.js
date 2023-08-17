@@ -1,25 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import RandomPoem from "./components/RandomPoem"
+import SearchInput from './components/SearchInput';
+import { BrowserRouter as Router, Route, Routes, useSearchParams } from "react-router-dom";
+import { useState } from 'react';
 
 function App() {
+  const [inputData, setInputData] = useState({})
+
+  const handleInputData = (data) => {
+    setInputData(data)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path='/' element={<SearchInput onSubmit={handleInputData} />} />
+        <Route path='/' element={<RandomPoem setData={inputData} />} />
+        <Route path="searchedQuestion" element={<SearchedQuestion />} />
+      </Routes>
+    </>
   );
 }
 
-export default App;
+export default App
+// 1. input do stanu
+// 2. router
+// 3. search params
