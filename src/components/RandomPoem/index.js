@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import "./styles.css"
-import { json } from "react-router-dom";
 
 function RandomPoem() {
     const [chosenPoem, setChosenPoem] = useState(null)
@@ -11,22 +10,6 @@ function RandomPoem() {
             .then(response => response.json())
             .then(data => setChosenPoem(data[0]))
     }, [])
-
-    // useEffect(() => {
-    //     let ignore = false;
-
-    //     async function startFetching() {
-    //         const json = await fetch(chosenPoem)
-    //         if (!ignore) {
-    //             setChosenPoem(json);
-    //         }
-    //     }
-    //     startFetching();
-
-    //     return () => {
-    //         ignore = true;
-    //     };
-    // }, [chosenPoem]);
 
 
     return <>

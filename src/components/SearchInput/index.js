@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./styles.css"
 
-function SearchInput({ onSubmit }) {
+function SearchInput({ onEvent }) {
     const [inputValue, setInputValue] = useState("")
     const navigate = useNavigate();
 
@@ -10,9 +10,8 @@ function SearchInput({ onSubmit }) {
 
         e.preventDefault();
         const data = inputValue
-        onSubmit(data)
-        navigate("searchedQuestion")
-        console.log(inputValue)
+        onEvent(data)
+        navigate("searchedQuestion") // `searchedQuestion?search=${inputValue}`
         setInputValue("")
     }
 

@@ -2,7 +2,7 @@ function SearchedQuestion(props) {
     const { setData } = props
 
     return <>
-        <p>{setData}</p>
+        <p>Znalezione dla hasła: {setData}</p>
     </>
 }
 
