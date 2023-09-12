@@ -4,11 +4,19 @@ import "./styles.css"
 
 function RandomPoem() {
     const [chosenPoem, setChosenPoem] = useState(null)
-
+    console.log(chosenPoem)
     useEffect(() => {
+        let ignore = false;
         fetch("https://poetrydb.org/random")
             .then(response => response.json())
-            .then(data => setChosenPoem(data[0]))
+            .then(data => {
+                if (!ignore) {
+                    setChosenPoem(data[0]);
+                }
+            })
+        return () => {
+            ignore = true;
+        }
     }, [])
 
 

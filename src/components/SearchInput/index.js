@@ -1,17 +1,15 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { json, useNavigate } from "react-router-dom";
 import "./styles.css"
 
-function SearchInput({ onEvent }) {
+function SearchInput() {
     const [inputValue, setInputValue] = useState("")
     const navigate = useNavigate();
 
-    function handleSubmit(e) {
 
+    function handleSubmit(e) {
         e.preventDefault();
-        const data = inputValue
-        onEvent(data)
-        navigate("searchedQuestion") // `searchedQuestion?search=${inputValue}`
+        navigate(`searchedQuestion?search=${inputValue}`)
         setInputValue("")
     }
 
