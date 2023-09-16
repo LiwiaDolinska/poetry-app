@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 function SearchedQuestion() {
@@ -7,27 +7,40 @@ function SearchedQuestion() {
     let [searchParams] = useSearchParams();
     const searchValue = searchParams.get("search")
 
-    const fetchData = () => {
+    const fetchData = useCallback(() => {
         fetch(`https://poetrydb.org/author/${searchValue}`)
             .then(response => response.json())
             .then(data => setData(data))
-    }
+    }, [searchValue])
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [fetchData])
+
+
+
+    let sortedPoems = data !== null ? [...data].sort((first, second) => {
+        const firstLinecount = parseInt(first.linecount)
+        const secondLinecount = parseInt(second.linecount)
+        if (sorting === "asc") {
+            return firstLinecount > secondLinecount ? 1 : -1;
+        } else {
+            return firstLinecount > secondLinecount ? -1 : 1;
+        }
+
+    }) : null
 
     return <>
         <label>Sortuj:</label>
-        <select>
+        <select value={sorting} onChange={e => setSorting(e.target.value)} >
             <option value="asc">Od najkrótszego</option>
             <option value="desc">Od najdłuższego</option>
         </select>
         <p>Znalezione dla hasła: {searchValue}</p>
         <div>
-            {data == null ?
+            {sortedPoems == null ?
                 "loading" :
-                data.map((poem) => <div>
+                sortedPoems.map((poem) => <div>
                     <p><strong>{poem.title}</strong></p>
                     <p>{poem.author}</p>
                     <p>{poem.lines.map((line) => <div>
@@ -35,8 +48,10 @@ function SearchedQuestion() {
                     </div>)}</p>
                 </div>)}
         </div>
-
     </>
 }
 
 export default SearchedQuestion
+
+// sortowanie alfabetyczne po tytułach
+// filtr - input 
