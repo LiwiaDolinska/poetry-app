@@ -22,10 +22,13 @@ function SearchedQuestion() {
     let sortedPoems = data !== null ? [...data].sort((first, second) => {
         const firstLinecount = parseInt(first.linecount)
         const secondLinecount = parseInt(second.linecount)
+        console.log(first.title)
         if (sorting === "asc") {
             return firstLinecount > secondLinecount ? 1 : -1;
-        } else {
+        } if (sorting === "desc") {
             return firstLinecount > secondLinecount ? -1 : 1;
+        } if (sorting === "alf") {
+            return first.title > second.title ? 1 : -1;
         }
 
     }) : null
@@ -35,6 +38,7 @@ function SearchedQuestion() {
         <select value={sorting} onChange={e => setSorting(e.target.value)} >
             <option value="asc">Od najkrótszego</option>
             <option value="desc">Od najdłuższego</option>
+            <option value="alf">Alfabetycznie</option>
         </select>
         <p>Znalezione dla hasła: {searchValue}</p>
         <div>
