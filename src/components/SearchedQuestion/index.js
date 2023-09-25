@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 function SearchedQuestion() {
     const [data, setData] = useState(null)
     const [sorting, setSorting] = useState("asc")
+    const [searchInput, setSearchInput] = useState("")
     let [searchParams] = useSearchParams();
     const searchValue = searchParams.get("search")
 
@@ -17,12 +18,11 @@ function SearchedQuestion() {
         fetchData()
     }, [fetchData])
 
+    const searchResult = data !== null ? data.filter((poem) => poem.title.startsWith(searchInput)) : null
 
-
-    let sortedPoems = data !== null ? [...data].sort((first, second) => {
+    const sortedPoems = searchResult !== null ? searchResult.sort((first, second) => {
         const firstLinecount = parseInt(first.linecount)
         const secondLinecount = parseInt(second.linecount)
-        console.log(first.title)
         if (sorting === "asc") {
             return firstLinecount > secondLinecount ? 1 : -1;
         } if (sorting === "desc") {
@@ -30,7 +30,6 @@ function SearchedQuestion() {
         } if (sorting === "alf") {
             return first.title > second.title ? 1 : -1;
         }
-
     }) : null
 
     return <>
@@ -40,6 +39,7 @@ function SearchedQuestion() {
             <option value="desc">Od najdłuższego</option>
             <option value="alf">Alfabetycznie</option>
         </select>
+        <input placeholder="Wyszukaj" onChange={e => setSearchInput(e.target.value.toUpperCase())}></input>
         <p>Znalezione dla hasła: {searchValue}</p>
         <div>
             {sortedPoems == null ?
@@ -57,5 +57,6 @@ function SearchedQuestion() {
 
 export default SearchedQuestion
 
-// sortowanie alfabetyczne po tytułach
-// filtr - input 
+// małe litery
+// komunikat pusta lista
+// nie tylko 1 słowo tytułu
