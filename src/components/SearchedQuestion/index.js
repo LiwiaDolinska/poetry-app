@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
+import "./styles.css"
 
 function SearchedQuestion() {
     const [data, setData] = useState(null)
@@ -18,7 +19,14 @@ function SearchedQuestion() {
         fetchData()
     }, [fetchData])
 
-    const searchResult = data !== null ? data.filter((poem) => poem.title.startsWith(searchInput)) : null
+
+
+    const searchResult = data !== null ? data.filter((poem) => {
+        const searchLowercase = searchInput.toLowerCase()
+        const poemTitleLowercase = poem.title.toLowerCase()
+        const regex = new RegExp(`${searchLowercase}`)
+        return poemTitleLowercase.search(regex) !== -1
+    }) : null
 
     const sortedPoems = searchResult !== null ? searchResult.sort((first, second) => {
         const firstLinecount = parseInt(first.linecount)
@@ -32,6 +40,7 @@ function SearchedQuestion() {
         }
     }) : null
 
+
     return <>
         <label>Sortuj:</label>
         <select value={sorting} onChange={e => setSorting(e.target.value)} >
@@ -39,7 +48,7 @@ function SearchedQuestion() {
             <option value="desc">Od najdłuższego</option>
             <option value="alf">Alfabetycznie</option>
         </select>
-        <input placeholder="Wyszukaj" onChange={e => setSearchInput(e.target.value.toUpperCase())}></input>
+        <input placeholder="Wyszukaj" onChange={e => setSearchInput(e.target.value)}></input>
         <p>Znalezione dla hasła: {searchValue}</p>
         <div>
             {sortedPoems == null ?
@@ -57,6 +66,7 @@ function SearchedQuestion() {
 
 export default SearchedQuestion
 
-// małe litery
 // komunikat pusta lista
 // nie tylko 1 słowo tytułu
+
+//+ e.target.value.slice(1).toLowerCase()

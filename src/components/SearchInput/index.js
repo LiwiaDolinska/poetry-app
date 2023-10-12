@@ -14,7 +14,7 @@ function SearchInput() {
     }
 
     return <form onSubmit={handleSubmit}>
-        <input value={inputValue} onChange={event => setInputValue(event.target.value)}></input>
+        <input className="input" value={inputValue} onChange={event => setInputValue(event.target.value)}></input>
         <button className="submit-button" type="submit" > Szukaj</button>
     </form>
 

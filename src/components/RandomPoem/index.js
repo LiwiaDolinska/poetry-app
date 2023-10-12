@@ -19,15 +19,16 @@ function RandomPoem() {
         }
     }, [])
 
+    if (chosenPoem === null) {
+        return "loading"
+    }
 
     return <>
-        <h1>wiersz</h1>
+        <p className="title">{chosenPoem.title}</p>
+        <p className="author">{chosenPoem.author}</p>
         <div className="poem-box">
-            {
-                chosenPoem == null ?
-                    "loading..." :
-                    <div>{chosenPoem.lines.map(line => <div>{line}</div>)}</div>
-            }
+            <div>{chosenPoem.lines.map(line => <div>{line}</div>)}</div>
+
         </div>
 
     </>
